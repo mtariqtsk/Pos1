@@ -1,0 +1,146 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Application user with role-based access",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "email": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "role": { "type": "string", "enum": ["admin", "salesman"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Customer": {
+      "title": "Customer",
+      "description": "Customer information",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "address": { "type": "string" },
+        "type": { "type": "string", "enum": ["retail", "wholesale", "supplier"] },
+        "balance": { "type": "number" },
+        "routeId": { "type": "string" },
+        "routeName": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "phone", "type"]
+    },
+    "Item": {
+      "title": "Item",
+      "description": "Product or item in inventory",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "category": { "type": "string" },
+        "purchasePrice": { "type": "number" },
+        "wholesalePrice": { "type": "number" },
+        "retailPrice": { "type": "number" },
+        "stock": { "type": "number" },
+        "unitsPerCarton": { "type": "number" },
+        "tax": { "type": "number", "description": "Tax percentage" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "purchasePrice", "wholesalePrice", "retailPrice", "unitsPerCarton"]
+    },
+    "Invoice": {
+      "title": "Invoice",
+      "description": "Sales invoice",
+      "type": "object",
+      "properties": {
+        "invoiceNumber": { "type": "string" },
+        "customerId": { "type": "string" },
+        "customerName": { "type": "string" },
+        "salesmanId": { "type": "string" },
+        "salesmanName": { "type": "string" },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "itemId": { "type": "string" },
+              "name": { "type": "string" },
+              "quantity": { "type": "number" },
+              "price": { "type": "number" },
+              "discount": { "type": "number" },
+              "total": { "type": "number" }
+            }
+          }
+        },
+        "subTotal": { "type": "number" },
+        "totalDiscount": { "type": "number" },
+        "grandTotal": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["invoiceNumber", "customerId", "items", "grandTotal"]
+    },
+    "Purchase": {
+      "title": "Purchase",
+      "description": "Inventory purchase from supplier",
+      "type": "object",
+      "properties": {
+        "purchaseNumber": { "type": "string" },
+        "supplierId": { "type": "string" },
+        "supplierName": { "type": "string" },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "itemId": { "type": "string" },
+              "name": { "type": "string" },
+              "quantity": { "type": "number" },
+              "price": { "type": "number" },
+              "total": { "type": "number" }
+            }
+          }
+        },
+        "totalAmount": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["purchaseNumber", "supplierId", "items", "totalAmount"]
+    },
+    "Route": {
+      "title": "Route",
+      "description": "Delivery route information",
+      "type": "object",
+      "properties": {
+        "routeName": { "type": "string" },
+        "vehicleName": { "type": "string" },
+        "salesmanName": { "type": "string" },
+        "salesmanNumber": { "type": "string" },
+        "deliveryManName": { "type": "string" },
+        "deliveryManNumber": { "type": "string" },
+        "routeDay": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["routeName", "vehicleName", "salesmanName", "deliveryManName", "routeDay"]
+    },
+    "AppSettings": {
+      "title": "AppSettings",
+      "description": "Global application settings",
+      "type": "object",
+      "properties": {
+        "stockValidationOnSales": { "type": "boolean" },
+        "distributionName": { "type": "string" },
+        "distributionAddress": { "type": "string" },
+        "distributionPhone": { "type": "string" },
+        "currencySymbol": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["stockValidationOnSales", "distributionName", "distributionAddress", "distributionPhone", "currencySymbol", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": { "schema": "User", "description": "User profiles" },
+    "/customers/{customerId}": { "schema": "Customer", "description": "Customer records" },
+    "/items/{itemId}": { "schema": "Item", "description": "Inventory items" },
+    "/invoices/{invoiceId}": { "schema": "Invoice", "description": "Sales invoices" },
+    "/purchases/{purchaseId}": { "schema": "Purchase", "description": "Inventory purchases" },
+    "/routes/{routeId}": { "schema": "Route", "description": "Delivery routes" },
+    "/settings/{settingId}": { "schema": "AppSettings", "description": "Global application settings" }
+  }
+}

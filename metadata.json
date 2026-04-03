@@ -1,0 +1,5 @@
+{
+  "name": "ProInvoice POS",
+  "description": "A professional full-featured Invoicing and Point of Sale (POS) application with real-time inventory management, reporting, and role-based access.",
+  "requestFramePermissions": []
+}

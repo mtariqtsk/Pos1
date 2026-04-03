@@ -8,12 +8,10 @@ import { Settings as SettingsIcon, Save, ShieldAlert, Building2, Globe } from 'l
 import toast from 'react-hot-toast';
 
 export const SettingsPage: React.FC = () => {
-  const { userProfile } = useAuth();
+  const { isAdmin } = useAuth();
   const [settings, setSettings] = useState<AppSettings | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-
-  const isAdmin = userProfile?.role === 'admin';
 
   useEffect(() => {
     const fetchSettings = async () => {
